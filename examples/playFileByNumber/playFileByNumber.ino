@@ -1,6 +1,6 @@
-/* 
+/*
  * Example for using the DFR0534 for playing audio files by file number
- */ 
+ */
 
 #include <SoftwareSerial.h>
 #include <DFR0534.h>
@@ -17,16 +17,16 @@ void setup() {
   g_serial.begin(9600);
 
   // Set volume
-  g_audio.setVolume(20);
-  
+  g_audio.setVolume(18);
+
   // Show some device infos
   Serial.print("Ready drives: ");
   byte drive = g_audio.getDrivesStates();
   if (((drive >> DFR0534::DRIVEUSB) & 1) == 1) Serial.print("USB ");
   if (((drive >> DFR0534::DRIVESD) & 1) == 1) Serial.print("SD ");
-  if (((drive >> DFR0534::DRIVEFLASH) & 1) == 1) Serial.print("FLASH ");  
+  if (((drive >> DFR0534::DRIVEFLASH) & 1) == 1) Serial.print("FLASH ");
   Serial.println();
-  
+
   Serial.print("Current playing drive: ");
   switch(g_audio.getDrive()) {
     case DFR0534::DRIVEUSB:
@@ -37,6 +37,9 @@ void setup() {
       break;
     case DFR0534::DRIVEFLASH:
       Serial.println("FLASH");
+      break;
+    case DFR0534::DRIVENO:
+      Serial.println("No drive");
       break;
     default:
       Serial.println("Unknown");
@@ -65,10 +68,10 @@ void loop() {
     Serial.print("number: ");
     word fileNumber = g_audio.getFileNumber();
     if (fileNumber > 0) Serial.print(fileNumber); else Serial.print("--");
-    
+
     Serial.print(" name: ");
     if (g_audio.getFileName(name)) Serial.print(name);
-    
+
     Serial.print(" status: ");
     switch (g_audio.getStatus()) {
       case DFR0534::STOPPED:

@@ -1,6 +1,6 @@
-/* 
+/*
  * Example for using the DFR0534 for playing audio files by file name
- */ 
+ */
 
 #include <SoftwareSerial.h>
 #include <DFR0534.h>
@@ -17,17 +17,22 @@ void setup() {
   g_serial.begin(9600);
 
   // Set volume
-  g_audio.setVolume(20);
-  
-  /* The parameter string for the function playFileByName is the full path 
-   * of the audio file to be played in special format which looks like 
-   * a 8+3 format: 
-   * - without the dot for the file extension
-   * - every file and folder which length is shorter then 
-   *   8 chars must be filled up to the 8 chars length by spaces.
+  g_audio.setVolume(18);
+
+  /* The file name/path for the function playFileByName() is the full path of the audio file to be played
+   * in format which looks like a special unix 8+3 format:
+   * - Without the dot for the file extension
+   * - All characters in upper case
+   * - Every file and folder whose length is shorter then 8 chars must be filled up to the 8 chars length by spaces.
    * - Only WAV and MP3 files are supported
-   * Wildcards * and ? are allowed and can be used to reduce 
-   * filling spaces.
+   * Wildcards * (=multiple arbitrary characters) and ? (=one single arbitrary character) are allowed and can be used to reduce filling spaces.
+   *
+   * Valid examples:
+   * - "/01      WAV" for file 01.wav
+   * - "/99-AFR~1MP3" for a file /99-Africa.mp3
+   * - "/99-AFR*MP3" for first file matching /99-Afr*.mp3
+   * - "/10*" for first audio file matching /10*.*
+   * - "/10      /20      WAV" for the file /10/20.wav
    *
    * You can get example files from https://github.com/codingABI/DFR0534/tree/main/assets/exampleContent
    *
@@ -52,10 +57,10 @@ void loop() {
     Serial.print("number: ");
     word fileNumber = g_audio.getFileNumber();
     if (fileNumber > 0) Serial.print(fileNumber); else Serial.print("--");
-    
+
     Serial.print(" name: ");
     if (g_audio.getFileName(name)) Serial.print(name);
-    
+
     Serial.print(" status: ");
     switch (g_audio.getStatus()) {
       case DFR0534::STOPPED:

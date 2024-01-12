@@ -1,4 +1,4 @@
-/*
+/**
  * Class: DFR0534
  *
  * Description:
@@ -32,13 +32,26 @@
  * - Has a Sleep mode 0x1B and this mode only works with one-wire protocol (https://github.com/arduino12/mp3_player_module_wire)
  *   and does not work for me without additional electric modifications (e.g. disconnecting speakers)
  *   => Switching off DFR0534 with a FET is a better solution
+ *
+ * Home: https://github.com/codingABI/DFR0534
+ *
+ * @author codingABI https://github.com/codingABI/
+ * @copyright 2-Clause BSD License
+ * @file DFR0534.cpp
+ * @version 1.0.1
  */
-
 #include "DFR0534.h"
 
-// Get module status
-// Returns STATUSUNKNOWN in case of an error
-byte DFR0534::getStatus() {
+/**@brief
+ * Get module status
+ *
+ * @retval DFR0534::STOPPED        Audio module is idle
+ * @retval DFR0534::PLAYING        Audio module is playing a file
+ * @retval DFR0534::PAUSED         Audio module is paused
+ * @retval DFR0534::STATUSUNKNOWN  Error (for example request timeout)
+ */
+byte DFR0534::getStatus()
+{
   #define COMMAND 0x01
   #define RECEIVEBYTETIMEOUTMS 100
   #define RECEIVEGLOBALTIMEOUTMS 500
@@ -95,8 +108,13 @@ byte DFR0534::getStatus() {
   return result;
 }
 
-// Set equalizer to NORMAL, POP, ROCK, JAZZ or CLASSIC
-void DFR0534::setEqualizer(byte mode) {
+/**@brief
+ * Set equalizer to NORMAL, POP, ROCK, JAZZ or CLASSIC
+ *
+ * @param[in] mode  EQ mode: DFR0534::NORMAL, DFR0534::POP, DFR0534::ROCK, DFR0534::JAZZ or DFR0534::CLASSIC
+ */
+void DFR0534::setEqualizer(byte mode)
+{
   if (m_ptrStream == NULL) return; // Should not happen
   if (mode >= EQUNKNOWN) return;
   sendStartingCode();
@@ -106,8 +124,16 @@ void DFR0534::setEqualizer(byte mode) {
   sendCheckSum();
 }
 
-// Play audio file by number (number depends on the order of copying files to the current drive. First audio file copied to the drive gets number 1, second audio file copied gets  number 2... )
-void DFR0534::playFileByNumber(word track) {
+/**@brief
+ * Play audio file by number
+ *
+ * File number order is "file copy order":
+ * First audio file copied to the drive gets number 1, second audio file copied gets  number 2... )
+ *
+ * @param[in] track  File number
+ */
+void DFR0534::playFileByNumber(word track)
+{
   if (m_ptrStream == NULL) return; // Should not happen
   if (track <=0) return;
   sendStartingCode();
@@ -118,8 +144,15 @@ void DFR0534::playFileByNumber(word track) {
   sendCheckSum();
 }
 
-// Set volume to 0-30
-void DFR0534::setVolume(byte volume) {
+/**@brief
+ * Set volume
+ *
+ * Volumen levels 0-30 are allowed. Audio module starts always with level 20.
+ *
+ * @param[in] volume  Volume level
+ */
+void DFR0534::setVolume(byte volume)
+{
   if (m_ptrStream == NULL) return; // Should not happen
   if (volume > 30) volume = 30;
   sendStartingCode();
@@ -129,8 +162,11 @@ void DFR0534::setVolume(byte volume) {
   sendCheckSum();
 }
 
-// Play the current selected file
-void DFR0534::play() {
+/**@brief
+ * Play the current selected file
+ */
+void DFR0534::play()
+{
   if (m_ptrStream == NULL) return; // Should not happen
   sendStartingCode();
   sendDataByte(0x02);
@@ -138,8 +174,11 @@ void DFR0534::play() {
   sendCheckSum();
 }
 
-// Pause the current file
-void DFR0534::pause() {
+/**@brief
+ * Pause the current file
+ */
+void DFR0534::pause()
+{
   if (m_ptrStream == NULL) return; // Should not happen
   sendStartingCode();
   sendDataByte(0x03);
@@ -147,8 +186,11 @@ void DFR0534::pause() {
   sendCheckSum();
 }
 
-// Stop the current file
-void DFR0534::stop() {
+/**@brief
+ * Stop the current file
+ */
+void DFR0534::stop()
+{
   if (m_ptrStream == NULL) return; // Should not happen
   sendStartingCode();
   sendDataByte(0x04);
@@ -156,8 +198,11 @@ void DFR0534::stop() {
   sendCheckSum();
 }
 
-// Play previous file (in file copy order)
-void DFR0534::playPrevious() {
+/**@brief
+ * Play previous file (in "file copy order")
+ */
+void DFR0534::playPrevious()
+{
   if (m_ptrStream == NULL) return; // Should not happen
   sendStartingCode();
   sendDataByte(0x05);
@@ -165,8 +210,11 @@ void DFR0534::playPrevious() {
   sendCheckSum();
 }
 
-// Play next file (in file copy order)
-void DFR0534::playNext() {
+/**@brief
+ * Play next file (in "file copy order")
+ */
+void DFR0534::playNext()
+{
   if (m_ptrStream == NULL) return; // Should not happen
   sendStartingCode();
   sendDataByte(0x06);
@@ -174,26 +222,29 @@ void DFR0534::playNext() {
   sendCheckSum();
 }
 
-/* Play audio file by file name/path
- * "file name" is like a 8+3 format, but has special naming conventions:
- * - the dot "." is" not part of the name and every name is always 8+3 char long, for example
- *   the real file "TEST.WAV" would have the name "TEST    WAV"
- * - You can use wildcards * (=multiple arbitrary character) and ? (=one single arbitrary character) in the "name"
- * - When wildcards are used the first matching file is used
- * - Chars seems to be used in upper case
- * - Files with extensions other then WAV or MP3 will be ignored
- * - The leading / is needed
- * - When using subfolders, the folder names must also have 8 char length (space char filled or you can use wildcards * or ?), for example
- *   "/TEST    " or "/TEST*" would be valid folder names   
+/**@brief
+ * Play audio file by file name/path
+ *
+ * The file name/path is the full path of the audio file to be played
+ * in format which looks like a special unix 8+3 format:
+ * - Without the dot for the file extension
+ * - All characters in upper case
+ * - Every file and folder whose length is shorter then 8 chars must be filled up to the 8 chars length by spaces.
+ * - Only WAV and MP3 files are supported
+ * Wildcards * (=multiple arbitrary characters) and ? (=one single arbitrary character) are allowed and can be used to reduce filling spaces.
  *
  * Valid examples:
- * "/01      WAV" for file 01.wav
- * "/99-AFR~1MP3" for a file /99-Africa.mp3
- * "/99-AFR*MP3" for first file matching /99-Afr*.mp3
- * "/10*" for first file matching /10*.*
- * "/10      /20      WAV" for the file /10/20.wav
+ * - "/01      WAV" for file 01.wav
+ * - "/99-AFR~1MP3" for a file /99-Africa.mp3
+ * - "/99-AFR*MP3" for first file matching /99-Afr*.mp3
+ * - "/10*" for first audio file matching /10*.*
+ * - "/10      /20      WAV" for the file /10/20.wav
+ *
+ * @param[in] path   Full path of the audio file
+ * @param[in] drive  Drive, where file is stored: Drive DFR0534::DRIVEUSB, DFR0534::DRIVESD or DFR0534::DRIVEFLASH (=default)
  */
-void DFR0534::playFileByName(char *path, byte drive) {
+void DFR0534::playFileByName(char *path, byte drive)
+{
   if (m_ptrStream == NULL) return; // Should not happen
   if (path == NULL) return;
   if (drive >= DRIVEUNKNOWN) return;
@@ -207,9 +258,19 @@ void DFR0534::playFileByName(char *path, byte drive) {
   sendCheckSum();
 }
 
-// Get bit pattern that shows which drives are ready/online
-// Returns DRIVEUNKNOWN in case of an error
-byte DFR0534::getDrivesStates() {
+/**@brief
+ * Checks which drives are ready/online
+ *
+ * Returned value is a bit pattern that shows which drives are ready/online (1=online,0=offline):
+ * - Bit 0 = DFR0534::DRIVEUSB
+ * - Bit 1 = DFR0534::DRIVESD
+ * - Bit 2 = DFR0534::DRIVEFLASH
+
+ * @returns Bit pattern for drives
+ * @retval DFR0534::DRIVEUNKNOWN  Error (for example request timeout)
+ */
+byte DFR0534::getDrivesStates()
+{
   #define COMMAND 0x09
   #define RECEIVEBYTETIMEOUTMS 100
   #define RECEIVEGLOBALTIMEOUTMS 500
@@ -266,9 +327,17 @@ byte DFR0534::getDrivesStates() {
   return result;
 }
 
-// Get current drive
-// Returns DRIVEUNKNOWN in case of an error
-byte DFR0534::getDrive() {
+/**@brief
+ * Get current drive
+ *
+ * @retval DFR0534::DRIVEUSB      USB drive
+ * @retval DFR0534::DRIVESD       SD card
+ * @retval DFR0534::DRIVEFLASH    Flash memory chip
+ * @retval DFR0534::DRIVENO       No drive found
+ * @retval DFR0534::DRIVEUNKNOWN  Error (for example request timeout)
+ */
+byte DFR0534::getDrive()
+{
   #define COMMAND 0x0A
   #define RECEIVEBYTETIMEOUTMS 100
   #define RECEIVEGLOBALTIMEOUTMS 500
@@ -325,8 +394,13 @@ byte DFR0534::getDrive() {
   return result;
 }
 
-// Switch to drive
-void DFR0534::setDrive(byte drive) {
+/**@brief
+* Switch to drive
+*
+* @param[in] drive  Drive DFR0534::DRIVEUSB, DFR0534::DRIVESD or DFR0534::DRIVEFLASH
+*/
+void DFR0534::setDrive(byte drive)
+{
   if (m_ptrStream == NULL) return; // Should not happen
   if (drive >= DRIVEUNKNOWN) return;
   sendStartingCode();
@@ -336,9 +410,16 @@ void DFR0534::setDrive(byte drive) {
   sendCheckSum();
 }
 
-// Get number of current file
-// Returns 0 in case of an error
-word DFR0534::getFileNumber() {
+/**@brief
+ * Get file number of current file
+ *
+ * File number is in "file copy order". First audio file copied to the drive get number 1...
+ *
+ * @returns File number
+ * @retval 0  Error (for example request timeout)
+ */
+word DFR0534::getFileNumber()
+{
   #define COMMAND 0x0D
   #define RECEIVEFAILED 0
   #define RECEIVEBYTETIMEOUTMS 100
@@ -403,9 +484,14 @@ word DFR0534::getFileNumber() {
   return result;
 }
 
-// Get total numbers for supported audio files on current drive
-// Returns -1 in case of an error
-int DFR0534::getTotalFiles() {
+/**@brief
+ * Get total number of supported audio files on current drive
+ *
+ * @returns Number of files
+ * @retval -1 Error (for example request timeout)
+ */
+int DFR0534::getTotalFiles()
+{
   #define COMMAND 0x0C
   #define RECEIVEFAILED -1
   #define RECEIVEBYTETIMEOUTMS 100
@@ -470,8 +556,11 @@ int DFR0534::getTotalFiles() {
   return result;
 }
 
-// Play last file in directory (in file copy order)
-void DFR0534::playLastInDirectory() {
+/**@brief
+ * Play last file in directory (in "file copy order")
+ */
+void DFR0534::playLastInDirectory()
+{
   if (m_ptrStream == NULL) return; // Should not happen
   sendStartingCode();
   sendDataByte(0x0E);
@@ -479,8 +568,11 @@ void DFR0534::playLastInDirectory() {
   sendCheckSum();
 }
 
-// Play first file im next directory (in file copy order)
-void DFR0534::playNextDirectory() {
+/**@brief
+ * Play first file in next directory (in "file copy order")
+ */
+void DFR0534::playNextDirectory()
+{
   if (m_ptrStream == NULL) return; // Should not happen
   sendStartingCode();
   sendDataByte(0x0F);
@@ -488,9 +580,14 @@ void DFR0534::playNextDirectory() {
   sendCheckSum();
 }
 
-// Get number of first file in current directory
-// Returns -1 in case of an error
-int DFR0534::getFirstFileNumberInCurrentDirectory() {
+/**@brief
+ * Get number of first file in current directory
+ *
+ * @returns File number
+ * @retval -1  Error (for example request timeout)
+ */
+int DFR0534::getFirstFileNumberInCurrentDirectory()
+{
   #define COMMAND 0x11
   #define RECEIVEFAILED -1
   #define RECEIVEBYTETIMEOUTMS 100
@@ -555,9 +652,14 @@ int DFR0534::getFirstFileNumberInCurrentDirectory() {
   return result;
 }
 
-// Get total numbers for audio files for the current directory
-// Returns -1 in case of an error
-int DFR0534::getTotalFilesInCurrentDirectory() {
+/**@brief
+ * Count all audio files for the current directory
+ *
+ * @returns File count
+ * @retval -1  Error (for example request timeout)
+ */
+int DFR0534::getTotalFilesInCurrentDirectory()
+{
   #define COMMAND 0x12
   #define RECEIVEFAILED -1
   #define RECEIVEBYTETIMEOUTMS 100
@@ -622,8 +724,11 @@ int DFR0534::getTotalFilesInCurrentDirectory() {
   return result;
 }
 
-// Increase volume by one step
-void DFR0534::increaseVolume() {
+/**@brief
+ * Increase volume by one step
+ */
+void DFR0534::increaseVolume()
+{
   if (m_ptrStream == NULL) return; // Should not happen
   sendStartingCode();
   sendDataByte(0x14);
@@ -631,8 +736,11 @@ void DFR0534::increaseVolume() {
   sendCheckSum();
 }
 
-// Decrease volume by one step
-void DFR0534::decreaseVolume() {
+/**@brief
+ * Decrease volume by one step
+ */
+void DFR0534::decreaseVolume()
+{
   if (m_ptrStream == NULL) return; // Should not happen
   sendStartingCode();
   sendDataByte(0x15);
@@ -640,10 +748,16 @@ void DFR0534::decreaseVolume() {
   sendCheckSum();
 }
 
-/* Pause current files and play this file by number (order is file copy order)
- * Continue original track when this track stops
+/**@brief
+ * Pause current file and play another file by number
+ *
+ * File number order is "file copy order". Continue original file when this file stops
+ *
+ * @param[in] track  File number of the audio file
+ * @param[in] drive  Drive, where file is stored: Drive DFR0534::DRIVEUSB, DFR0534::DRIVESD or DFR0534::DRIVEFLASH (=default)
  */
-void DFR0534::insertFileByNumber(word track, byte drive) {
+void DFR0534::insertFileByNumber(word track, byte drive)
+{
   if (m_ptrStream == NULL) return; // Should not happen
   if (drive >= DRIVEUNKNOWN) return;
   sendStartingCode();
@@ -655,8 +769,13 @@ void DFR0534::insertFileByNumber(word track, byte drive) {
   sendCheckSum();
 }
 
-// Stop inserted file
-void DFR0534::stopInsertedFile() {
+/**@brief
+ * Stop inserted file
+ *
+ * Continue original file
+ */
+void DFR0534::stopInsertedFile()
+{
   if (m_ptrStream == NULL) return; // Should not happen
   sendStartingCode();
   sendDataByte(0x10);
@@ -664,8 +783,14 @@ void DFR0534::stopInsertedFile() {
   sendCheckSum();
 }
 
-// Does not work for me
-void DFR0534::setDirectory(char *path, byte drive) {
+/**@brief
+ * Should set directory, but does not work for me
+ *
+ * @param[in] path   Directory
+ * @param[in] drive  Drive, where directory is stored: Drive DFR0534::DRIVEUSB, DFR0534::DRIVESD or DFR0534::DRIVEFLASH (=default)
+ */
+void DFR0534::setDirectory(char *path, byte drive)
+{
   if (m_ptrStream == NULL) return; // Should not happen
   if (path == NULL) return;
   if (drive >= DRIVEUNKNOWN) return;
@@ -679,8 +804,13 @@ void DFR0534::setDirectory(char *path, byte drive) {
   sendCheckSum();
 }
 
-// Set loop mode
-void DFR0534::setLoopMode(byte mode) {
+/**@brief
+ * Set loop mode
+ *
+ * @param[in] mode  Loop mode: DFR0534::LOOPBACKALL, DFR0534::SINGLEAUDIOLOOP, DFR0534::SINGLEAUDIOSTOP, DFR0534::PLAYRANDOM, DFR0534::DIRECTORYLOOP, DFR0534::RANDOMINDIRECTORY, DFR0534::SEQUENTIALINDIRECTORY or DFR0534::SEQUENTIAL
+ */
+void DFR0534::setLoopMode(byte mode)
+{
   if (m_ptrStream == NULL) return; // Should not happen
   if (mode >= PLAYMODEUNKNOWN) return;
   sendStartingCode();
@@ -690,8 +820,15 @@ void DFR0534::setLoopMode(byte mode) {
   sendCheckSum();
 }
 
-// Set repeat loops for loop modes LOOPBACKALL, SINGLEAUDIOLOOP and DIRECTORYLOOP
-void DFR0534::setRepeatLoops(word loops) {
+/**@brief
+ * Set repeat loops
+ *
+ * Only valid for loop modes DFR0534::LOOPBACKALL, DFR0534::SINGLEAUDIOLOOP or DFR0534::DIRECTORYLOOP
+ *
+ * @param[in] loops  Number of loops
+ */
+void DFR0534::setRepeatLoops(word loops)
+{
   if (m_ptrStream == NULL) return; // Should not happen
   sendStartingCode();
   sendDataByte(0x19);
@@ -701,14 +838,19 @@ void DFR0534::setRepeatLoops(word loops) {
   sendCheckSum();
 }
 
-/* Combined/concatenated play of files 
- * like a playlist, for example playCombined("0103") for
- * the two files 01 and 03. 
+/**@brief
+ * Combined/concatenated play of files
+ *
+ * Combined is like a playlist, for example playCombined("0103") for
+ * the two files 01 and 03.
  * The Filenames must be two chars long and the files must
  * be in a directory called /ZH
  * Combined playback ignores loop mode and stops after last file.
+ *
+ * @param[in] list  Concatenated list of all files to play
  */
-void DFR0534::playCombined(char* list) {
+void DFR0534::playCombined(char* list)
+{
   if (m_ptrStream == NULL) return; // Should not happen
   if (list == NULL) return;
   if ((strlen(list) % 2) != 0) return;
@@ -722,8 +864,11 @@ void DFR0534::playCombined(char* list) {
   sendCheckSum();
 }
 
-// Stop playlist (combined playback)
-void DFR0534::stopCombined() {
+/**@brief
+ * Stop combined play (playlist)
+ */
+void DFR0534::stopCombined()
+{
   if (m_ptrStream == NULL) return; // Should not happen
   sendStartingCode();
   sendDataByte(0x1C);
@@ -731,8 +876,16 @@ void DFR0534::stopCombined() {
   sendCheckSum();
 }
 
-// Set output channel to SP, DAC or both
-void DFR0534::setChannel(byte channel) {
+/**@brief
+ * Set output for DAC to channel MP3, AUX or both
+ *
+ * I found not P26/P27 for AUX on my DFR0534 => Only DFR0534::CHANNELMP3 makes sense (and is already set by default)
+ * Perhaps this function works on other audio modules with the same chip.
+ *
+ * @param[in] channel Output channel: DFR0534::CHANNELMP3, DFR0534::CHANNELAUX or DFR0534::CHANNELMP3AUX
+ */
+void DFR0534::setChannel(byte channel)
+{
   if (m_ptrStream == NULL) return; // Should not happen
   if (channel >= CHANNELUNKNOWN) return;
   sendStartingCode();
@@ -742,12 +895,17 @@ void DFR0534::setChannel(byte channel) {
   sendCheckSum();
 }
 
-/* Get name for current file
+/**@brief
+ * Get name for current file
+ *
  * File name is in 8+3 format in upper case, with spaces
  * without the dot "." between name and extension,
  * e.g. "TEST   WAV" for the file test.wav
+ *
+ * @param[out] name  Filename. You have to allocate at least 12 chars memory for this variable.
  */
-bool DFR0534::getFileName(char *name) {
+bool DFR0534::getFileName(char *name)
+{
   #define COMMAND 0x1E
   #define RECEIVEBYTETIMEOUTMS 100
   #define RECEIVEGLOBALTIMEOUTMS 500
@@ -786,8 +944,10 @@ bool DFR0534::getFileName(char *name) {
     }
     if (i == RECEIVEHEADERLENGTH) length = data; // Length of receiving string
     if ((i > RECEIVEHEADERLENGTH) && (i-RECEIVEHEADERLENGTH-1<length)) {
-      name[i-RECEIVEHEADERLENGTH-1] = data;
-      name[i-RECEIVEHEADERLENGTH] = '\0';
+      if ((i-RECEIVEHEADERLENGTH) < 12) { // I expect no longer file names than 8+3 chars plus '\0'
+        name[i-RECEIVEHEADERLENGTH-1] = data;
+        name[i-RECEIVEHEADERLENGTH] = '\0';
+      }
     }
     if (firstByte == STARTINGCODE) {
       if (i-RECEIVEHEADERLENGTH<=length) sum+=data; // Update checksum
@@ -798,8 +958,13 @@ bool DFR0534::getFileName(char *name) {
   return (data == sum); // Does checksum matches?
 }
 
-// Select file by number but not start playing
-void DFR0534::prepareFileByNumber(word track) {
+/**@brief
+ * Select file by number, but not start playing
+ *
+ * @param[in] track  Number for file
+ */
+void DFR0534::prepareFileByNumber(word track)
+{
   if (m_ptrStream == NULL) return; // Should not happen
   sendStartingCode();
   sendDataByte(0x1F);
@@ -809,8 +974,18 @@ void DFR0534::prepareFileByNumber(word track) {
   sendCheckSum();
 }
 
-// Repeat part of the current file
-void DFR0534::repeatPart(byte startMinute, byte startSecond, byte stopMinute, byte stopSecond ) {
+/**@brief
+ * Repeat part of the current file
+ *
+ * Repeat between time start and stop position
+ *
+ * @param[in] startMinute  Minute for start position
+ * @param[in] startSecond  Second for start position
+ * @param[in] stopMinute   Minute for stop position
+ * @param[in] stopSecond   Seconde for stop position
+ */
+void DFR0534::repeatPart(byte startMinute, byte startSecond, byte stopMinute, byte stopSecond )
+{
   if (m_ptrStream == NULL) return; // Should not happen
   sendStartingCode();
   sendDataByte(0x20);
@@ -822,8 +997,11 @@ void DFR0534::repeatPart(byte startMinute, byte startSecond, byte stopMinute, by
   sendCheckSum();
 }
 
-// Stop repeating part of the current file
-void DFR0534::stopRepeatPart() {
+/**@brief
+ * Stop repeating part of the current file
+ */
+void DFR0534::stopRepeatPart()
+{
   if (m_ptrStream == NULL) return; // Should not happen
   sendStartingCode();
   sendDataByte(0x21);
@@ -831,8 +1009,15 @@ void DFR0534::stopRepeatPart() {
   sendCheckSum();
 }
 
-// Fast backward
-void DFR0534::fastBackwardDuration(word seconds) {
+/**@brief
+ * Fast backward
+ *
+ * Fast backward in seconds
+ *
+ * @param[in] seconds  Seconds to go backward
+ */
+void DFR0534::fastBackwardDuration(word seconds)
+{
   if (m_ptrStream == NULL) return; // Should not happen
   sendStartingCode();
   sendDataByte(0x22);
@@ -842,8 +1027,14 @@ void DFR0534::fastBackwardDuration(word seconds) {
   sendCheckSum();
 }
 
-// Fast forward
-void DFR0534::fastForwardDuration(word seconds) {
+/**@brief
+ *
+ * Fast forward in seconds
+ *
+ * @param[in] seconds  Seconds to go forward
+ */
+void DFR0534::fastForwardDuration(word seconds)
+{
   if (m_ptrStream == NULL) return; // Should not happen
   sendStartingCode();
   sendDataByte(0x23);
@@ -853,9 +1044,20 @@ void DFR0534::fastForwardDuration(word seconds) {
   sendCheckSum();
 }
 
-// Get duration/length of current file
-// Returns false in case of an error
-bool DFR0534::getDuration(byte &hour, byte &minute, byte &second) {
+/**@brief
+ * Get duration/length of current file
+ *
+ * Get duration/length of current file in hours:minutes:seconds
+ *
+ * @param[out] hour   Hours
+ * @param[out] minute Minutes
+ * @param[out] second Seconds
+ *
+ * @retval true  Request was successful
+ * @retval false Request failed
+ */
+bool DFR0534::getDuration(byte &hour, byte &minute, byte &second)
+{
   #define COMMAND 0x24
   #define RECEIVEFAILED false
   #define RECEIVEBYTETIMEOUTMS 100
@@ -922,8 +1124,11 @@ bool DFR0534::getDuration(byte &hour, byte &minute, byte &second) {
   return (data == sum); // Does checksum matches?
 }
 
-// Start sending elapsed runtime every 1 second
-void DFR0534::startSendingRuntime() {
+/**@brief
+ * Start sending elapsed runtime every 1 second
+ */
+void DFR0534::startSendingRuntime()
+{
   if (m_ptrStream == NULL) return; // Should not happen
   sendStartingCode();
   sendDataByte(0x25);
@@ -931,10 +1136,21 @@ void DFR0534::startSendingRuntime() {
   sendCheckSum();
 }
 
-// Get elapsed runtime/duration of the current file
-// Sending runtime must be enabled before with startSendingRuntime()
-// Returns false in case of an error
-bool DFR0534::getRuntime(byte &hour, byte &minute, byte &second) {
+/**@brief
+ * Get elapsed runtime/duration of the current file
+ *
+ * Runtime is in hours:minutes:seconds. You have to call startSendingRuntime() before runtimes can
+ * be received.
+ *
+ * @param[out] hour   Hours
+ * @param[out] minute Minutes
+ * @param[out] second Seconds
+ *
+ * @retval true  Request was successful
+ * @retval false Request failed
+ */
+bool DFR0534::getRuntime(byte &hour, byte &minute, byte &second)
+{
   #define COMMAND 0x25
   #define RECEIVEFAILED false
   #define RECEIVEBYTETIMEOUTMS 100
@@ -997,8 +1213,11 @@ bool DFR0534::getRuntime(byte &hour, byte &minute, byte &second) {
   return (data == sum); // Does checksum matches?
 }
 
-// Stop sending runtime
-void DFR0534::stopSendingRuntime() {
+/**@brief
+ * Stop sending runtime
+ */
+void DFR0534::stopSendingRuntime()
+{
   if (m_ptrStream == NULL) return; // Should not happen
   sendStartingCode();
   sendDataByte(0x26);

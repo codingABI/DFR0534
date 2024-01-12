@@ -12,58 +12,58 @@ DFR0534	KEYWORD1
 # Methods and Functions (KEYWORD2)
 #######################################
 
-getStatus	KEYWORD2
-setEqualizer	KEYWORD2
-playFileByNumber	KEYWORD2
-setVolume	KEYWORD2
-play	KEYWORD2
-pause	KEYWORD2
-stop	KEYWORD2
-playPrevious	KEYWORD2
-playNext	KEYWORD2
-playFileByName	KEYWORD2
-getDrivesStates	KEYWORD2
-getDrive	KEYWORD2
-setDrive	KEYWORD2
-getFileNumber	KEYWORD2
-getTotalFiles	KEYWORD2
-playLastInDirectory	KEYWORD2
-playNextDirectory	KEYWORD2
-getFirstFileNumberInCurrentDirectory	KEYWORD2
-getTotalFilesInCurrentDirectory	KEYWORD2
-increaseVolume	KEYWORD2
 decreaseVolume	KEYWORD2
-insertFileByNumber	KEYWORD2
-stopInsertedFile	KEYWORD2
-setDirectory	KEYWORD2
-setLoopMode	KEYWORD2
-setRepeatLoops	KEYWORD2
-playCombined	KEYWORD2
-stopCombined	KEYWORD2
-setChannel	KEYWORD2
-getFileName	KEYWORD2
-prepareFileByNumber	KEYWORD2
-repeatPart	KEYWORD2
-stopRepeatPart	KEYWORD2
 fastBackwardDuration	KEYWORD2
 fastForwardDuration	KEYWORD2
+getDrive	KEYWORD2
+getDrivesStates	KEYWORD2
 getDuration	KEYWORD2
-startSendingRuntime	KEYWORD2
+getFileName	KEYWORD2
+getFileNumber	KEYWORD2
+getFirstFileNumberInCurrentDirectory	KEYWORD2
 getRuntime	KEYWORD2
+getStatus	KEYWORD2
+getTotalFiles	KEYWORD2
+getTotalFilesInCurrentDirectory	KEYWORD2
+increaseVolume	KEYWORD2
+insertFileByNumber	KEYWORD2
+pause	KEYWORD2
+play	KEYWORD2
+playCombined	KEYWORD2
+playFileByName	KEYWORD2
+playFileByNumber	KEYWORD2
+playLastInDirectory	KEYWORD2
+playNext	KEYWORD2
+playNextDirectory	KEYWORD2
+playPrevious	KEYWORD2
+prepareFileByNumber	KEYWORD2
+repeatPart	KEYWORD2
+setChannel	KEYWORD2
+setDirectory	KEYWORD2
+setDrive	KEYWORD2
+setEqualizer	KEYWORD2
+setLoopMode	KEYWORD2
+setRepeatLoops	KEYWORD2
+setVolume	KEYWORD2
+startSendingRuntime	KEYWORD2
+stop	KEYWORD2
+stopCombined	KEYWORD2
+stopInsertedFile	KEYWORD2
+stopRepeatPart	KEYWORD2
 stopSendingRuntime	KEYWORD2
 
 #######################################
 # Constants (LITERAL1)
 #######################################
 
-STATUSUNKNOWN	LITERAL1
 CHANNELMP3	LITERAL1
-CHANNELDAC	LITERAL1
+CHANNELAUX	LITERAL1
 CHANNELMP3AUX	LITERAL1
 CHANNELUNKNOWN	LITERAL1
 DRIVEUSB	LITERAL1
 DRIVESD	LITERAL1
 DRIVEFLASH	LITERAL1
+DRIVENO	LITERAL1
 DRIVEUNKNOWN	LITERAL1
 LOOPBACKALL	LITERAL1
 SINGLEAUDIOLOOP	LITERAL1

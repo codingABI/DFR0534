@@ -1,5 +1,5 @@
 # DFR0534
-Arduino Uno/Nano library for a [DFR0534](https://wiki.dfrobot.com/Voice_Module_SKU__DFR0534) audio module. The library works with SoftwareSerial and is very similar to https://github.com/sleemanj/JQ8400_Serial, but is no fork.
+An Arduino Uno/Nano library for a [DFR0534](https://wiki.dfrobot.com/Voice_Module_SKU__DFR0534) audio module. The library works with SoftwareSerial and is very similar to https://github.com/sleemanj/JQ8400_Serial, but is no fork.
 
 To create a DFR0534 object pass the existing SoftwareSerial object as parameter to the DFR0534 constructor, for example
 
@@ -13,6 +13,8 @@ SoftwareSerial g_serial(RX_PIN, TX_PIN);
 DFR0534 g_audio(g_serial);
 ...
 ```
+
+[PDF-Documentation](DFR0534.pdf)
 
 Examples how to use the library
 - [playFileByName](/examples/playFileByName/playFileByName.ino)
@@ -55,7 +57,7 @@ This library is licensed under the terms of the 2-Clause BSD License [Copyright 
 | playPrevious |   |
 | prepareFileByNumber |   |
 | repeatPart |   |
-| setChannel | Supports DFR0534::CHANNELMP3, DFR0534::CHANNELDAC and DFR0534::CHANNELMP3AUX |
+| setChannel | Seems make no sense on a DFR0534 audio module |
 | setDrive | Supports DFR0534::DRIVEUSB, DFR0534::DRIVESD and DFR0534::DRIVEFLASH |
 | setDirectory | Seems not to work |
 | setEqualizer | Supports DFR0534::NORMAL, DFR0534::POP, DFR0534::ROCK, DFR0534::JAZZ and DFR0534::CLASSIC  |
@@ -76,7 +78,7 @@ For function details see comments in [DFR0534.cpp](src/DFR0534.cpp)
 ![DFR0534](assets/images/DFR0534.jpg)
 
 Minimal schematic to use this library
-| Pin  | Connteced to |
+| Pin  | Connected to |
 | ------------- | ------------- |
 | TX | Used SoftwareSerial RX  |
 | RX | Used SoftwareSerial TX* |

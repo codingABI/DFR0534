@@ -1,6 +1,6 @@
-/* 
+/*
  * Example for using the DFR0534 for playing combined audio files like a playlist
- */ 
+ */
 
 #include <SoftwareSerial.h>
 #include <DFR0534.h>
@@ -17,25 +17,25 @@ void setup() {
   g_serial.begin(9600);
 
   // Set volume
-  g_audio.setVolume(20);
-  
-  /* The parameter string for the playCombined function is just 
-   * a concatenation of all files in the desired order without 
+  g_audio.setVolume(18);
+
+  /* The parameter string for the playCombined function is just
+   * a concatenation of all files in the desired order without
    * path and without extension.
    * All files have to be in the folder /ZH and the each
-   * file has to have a length (without extension) of two chars. 
+   * file has to have a length (without extension) of two chars.
    *
    * You can get example files from https://github.com/codingABI/DFR0534/tree/main/assets/exampleContent
    */
 
-  /* Plays files the custom order, like a playlist and stops after the last file: 
+  /* Plays files the custom order, like a playlist and stops after the last file:
    * /ZH/05.wav
    * /ZH/04.wav
    * /ZH/03.wav
    * /ZH/02.wav
    * /ZH/01.wav
    * /ZH/0A.wav
-   */   
+   */
   g_audio.playCombined("05040302010A");
 }
 
@@ -48,10 +48,10 @@ void loop() {
     Serial.print("number: ");
     word fileNumber = g_audio.getFileNumber();
     if (fileNumber > 0) Serial.print(fileNumber); else Serial.print("--");
-    
+
     Serial.print(" name: ");
     if (g_audio.getFileName(name)) Serial.print(name);
-    
+
     Serial.print(" status: ");
     switch (g_audio.getStatus()) {
       case DFR0534::STOPPED:
