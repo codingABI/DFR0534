@@ -21,7 +21,7 @@
 /** Library version */
 #define DFR0534_VERSION "1.0.1"
 
-#include <arduino.h>
+#include <Arduino.h>
 #include <Stream.h>
 
 #define STARTINGCODE 0xAA
