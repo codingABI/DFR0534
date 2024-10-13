@@ -23,26 +23,20 @@ void setup() {
    * in format which looks like a special unix 8+3 format:
    * - Without the dot for the file extension
    * - All characters in upper case
-   * - must start with a number
    * - Every file and folder whose length is shorter then 8 chars must be filled up to the 8 chars length by spaces.
+   * - must end with WAV or MP3
    * - Only WAV and MP3 files are supported
    * Wildcards * (=multiple arbitrary characters) and ? (=one single arbitrary character) are allowed and can be used to reduce filling spaces.
    *
    * Valid examples:
    * - "/01      WAV" for file 01.wav
    * - "/99-AFR~1MP3" for a file /99-Africa.mp3
+   * - "/SUN*MP3" for a file /sun.mp3
    * - "/99-AFR*MP3" for first file matching /99-Afr*.mp3
    * - "/10*" for first audio file matching /10*.*
    * - "/10      /20      WAV" for the file /10/20.wav
    *
    * You can get example files from https://github.com/codingABI/DFR0534/tree/main/assets/exampleContent
-   *
-   * Valid examples:
-   * "/01      WAV" for file 01.wav
-   * "/99-AFR~1MP3" for a file /99-Africa.mp3
-   * "/99-AFR*MP3" for first file matching /99-Afr*.mp3
-   * "/10*" for first audio file matching /10*.*
-   * "/10      /20      WAV" for the file /10/20.wav
    */
 
   // Play the file "test.wav"
