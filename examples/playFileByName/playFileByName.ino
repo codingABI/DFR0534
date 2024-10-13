@@ -23,6 +23,7 @@ void setup() {
    * in format which looks like a special unix 8+3 format:
    * - Without the dot for the file extension
    * - All characters in upper case
+   * - must start with a number
    * - Every file and folder whose length is shorter then 8 chars must be filled up to the 8 chars length by spaces.
    * - Only WAV and MP3 files are supported
    * Wildcards * (=multiple arbitrary characters) and ? (=one single arbitrary character) are allowed and can be used to reduce filling spaces.
