@@ -39,7 +39,7 @@ void setup() {
    * - "/99-AFR*MP3" for first file matching '/99-Afr*.mp3'
    * - "/10*" for first* audio file matching /10*.*
    * - "/10      /20      WAV" for the file /10/20.wav
-   * - first in copy order
+   * - first means first in copy order
    *
    * You can get example files from
    * https://github.com/codingABI/DFR0534/tree/main/assets/exampleContent
