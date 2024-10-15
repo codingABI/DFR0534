@@ -74,7 +74,7 @@ This library is licensed under the terms of the 2-Clause BSD License [Copyright 
 For function details see comments in [DFR0534.cpp](src/DFR0534.cpp)
 
 
-### DF0534 pinout
+### DFR0534 pinout
 ![DFR0534](assets/images/DFR0534.jpg)
 
 Minimal schematic to use this library

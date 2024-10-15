@@ -19,7 +19,7 @@
 #pragma once
 
 /** Library version */
-#define DFR0534_VERSION "1.0.1"
+#define DFR0534_VERSION "1.0.2"
 
 #include <Arduino.h>
 #include <Stream.h>
