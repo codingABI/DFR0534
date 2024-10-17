@@ -14,12 +14,12 @@
  * @author codingABI https://github.com/codingABI/
  * @copyright 2-Clause BSD License
  * @file DFR0534.h
- * @version 1.0.2
+ * @version 1.0.3
  */
 #pragma once
 
 /** Library version */
-#define DFR0534_VERSION "1.0.2"
+#define DFR0534_VERSION "1.0.3"
 
 #include <Arduino.h>
 #include <Stream.h>

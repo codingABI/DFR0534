@@ -37,7 +37,7 @@ void setup() {
    * - "/99-AFR~1MP3" for a file '/99-Africa.mp3'
    * - "/SUN*MP3" for first file matching /sun*.mp3, for example '/sun.mp3'
    * - "/99-AFR*MP3" for first file matching '/99-Afr*.mp3'
-   * - "/10*" for first* audio file matching /10*.*
+   * - "/10*" for first audio file matching /10*.*
    * - "/10      /20      WAV" for the file /10/20.wav
    * - first means first in copy order
    *

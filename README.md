@@ -80,8 +80,8 @@ For function details see comments in [DFR0534.cpp](src/DFR0534.cpp)
 Minimal schematic to use this library
 | Pin  | Connected to |
 | ------------- | ------------- |
-| TX | Used SoftwareSerial RX  |
-| RX | Used SoftwareSerial TX* |
+| TX | SoftwareSerial RX  |
+| RX | SoftwareSerial TX* |
 | GND | Ground  |
 | VCC | 3.3-5V  |
 | SP+ | Speaker + connector |

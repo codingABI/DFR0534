@@ -38,7 +38,7 @@
  * @author codingABI https://github.com/codingABI/
  * @copyright 2-Clause BSD License
  * @file DFR0534.cpp
- * @version 1.0.2
+ * @version 1.0.3
  */
 #include "DFR0534.h"
 
@@ -238,12 +238,13 @@ void DFR0534::playNext()
  *   are allowed and can be used to reduce the filling space chars
  * 
  * Valid examples:
- * - "/01      WAV" for file 01.wav
- * - "/99-AFR~1MP3" for a file /99-Africa.mp3
- * - "/SUN*MP3" for first file matching /sun*.mp3, for example '/sun.mp3' (in this order for example: sun0.mp3 sun.mp3 sun1.mp3) 
- * - "/99-AFR*MP3" for first file matching /99-Afr*.mp3
+ * - "/01      WAV" for file '/01.wav'
+ * - "/99-AFR~1MP3" for a file '/99-Africa.mp3'
+ * - "/SUN*MP3" for first file matching /sun*.mp3, for example '/sun.mp3'
+ * - "/99-AFR*MP3" for first file matching '/99-Afr*.mp3'
  * - "/10*" for first audio file matching /10*.*
  * - "/10      /20      WAV" for the file /10/20.wav
+ * - first means first in copy order
  *
  * @param[in] path   Full path of the audio file
  * @param[in] drive  Drive, where file is stored: Drive DFR0534::DRIVEUSB, DFR0534::DRIVESD or DFR0534::DRIVEFLASH (=default)
