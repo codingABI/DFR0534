@@ -4,7 +4,7 @@ $SpeechSynthesizer.SelectVoice('Microsoft Zira Desktop')
 $streamFormat = [System.Speech.AudioFormat.SpeechAudioFormatInfo]::new(16000,[System.Speech.AudioFormat.AudioBitsPerSample]::Sixteen,[System.Speech.AudioFormat.AudioChannel]::Mono)
 New-Item -Name "ZH" -ItemType Directory -ErrorAction SilentlyContinue
 
-for ($i=0; $i -le 10; $i++) {
+for ($i=0; $i -le 24; $i++) {
 	$SpeechSynthesizer.SetOutputToWaveFile((get-location).Path+'\ZH\'+($i).ToString('00') +'.wav',$streamFormat)
 	$SpeechSynthesizer.Speak($i)
 }
