@@ -230,21 +230,21 @@ void DFR0534::playNext()
  * - Without the dot for the file extension
  * - All characters in upper case
  * - maximal 8 characters
- * - Every file and folder whose name length is shorter then 8 chars 
+ * - Every file and folder whose name length is shorter then 8 chars
  *   must be filled up to the 8 chars length by space chars
  * - must end with WAV or MP3
  * - Only WAV and MP3 files are supported
- * - Wildcards * (=multiple arbitrary characters) and ? (=one single arbitrary character) 
+ * - Wildcards * (=multiple arbitrary characters) and ? (=one single arbitrary character)
  *   are allowed and can be used to reduce the filling space chars
- * 
+ *
  * Valid examples:
- * - "/01      WAV" for file '/01.wav'
+ * - "/01      WAV" for a file '/01.wav'
  * - "/99-AFR~1MP3" for a file '/99-Africa.mp3'
- * - "/SUN*MP3" for first file matching /sun*.mp3, for example '/sun.mp3'
+ * - "/SUN*MP3" for first file matching '/sun*.mp3', for example '/sun.mp3'
  * - "/99-AFR*MP3" for first file matching '/99-Afr*.mp3'
- * - "/10*" for first audio file matching /10*.*
- * - "/10      /20      WAV" for the file /10/20.wav
- * - first means first in copy order
+ * - "/10*" for first audio file matching '/10*.*'
+ * - "/10      /20      WAV" for the file '/10/20.wav'
+ * (first means first in "file copy order")
  *
  * @param[in] path   Full path of the audio file
  * @param[in] drive  Drive, where file is stored: Drive DFR0534::DRIVEUSB, DFR0534::DRIVESD or DFR0534::DRIVEFLASH (=default)
