@@ -2,7 +2,7 @@
  * Example for using the DFR0534 for playing audio files by file number
  *
  * This code was made for Arduino Uno/Nano. For ESP32 you have the change the code to use HardwareSerial
- * instead for SoftwareSerial (see https://github.com/codingABI/DFR0534#hardwareserial-for-esp32)
+ * instead of SoftwareSerial (see https://github.com/codingABI/DFR0534#hardwareserial-for-esp32)
  */
 
 #include <SoftwareSerial.h>
