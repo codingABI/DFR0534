@@ -1,5 +1,8 @@
 /*
  * Example for using the DFR0534 for playing combined audio files like a playlist
+ *
+ * This code was made for Arduino Uno/Nano. For ESP32 you have the change the code to use HardwareSerial
+ * instead for SoftwareSerial (see https://github.com/codingABI/DFR0534?tab=readme-ov-file#hardwareserial-for-esp32)
  */
 
 #include <SoftwareSerial.h>

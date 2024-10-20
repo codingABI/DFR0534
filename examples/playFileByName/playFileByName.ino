@@ -1,5 +1,8 @@
 /*
  * Example for using the DFR0534 for playing audio files by file name
+ *
+ * This code was made for Arduino Uno/Nano. For ESP32 you have the change the code to use HardwareSerial
+ * instead for SoftwareSerial (see https://github.com/codingABI/DFR0534?tab=readme-ov-file#hardwareserial-for-esp32)
  */
 
 #include <SoftwareSerial.h>
@@ -19,17 +22,17 @@ void setup() {
   // Set volume
   g_audio.setVolume(18);
 
-  /* The file name/path for the function playFileByName() is the 
-   * full path of the audio file to be played in format which looks like 
+  /* The file name/path for the function playFileByName() is the
+   * full path of the audio file to be played in format which looks like
    * a special unix 8+3 format:
    * - Without the dot for the file extension
    * - All characters in upper case
    * - maximal 8 characters
-   * - Every file and folder whose name length is shorter then 8 chars 
+   * - Every file and folder whose name length is shorter then 8 chars
    *   must be filled up to the 8 chars length by space chars
    * - must end with WAV or MP3
    * - Only WAV and MP3 files are supported
-   * - Wildcards * (=multiple arbitrary characters) and ? (=one single arbitrary character) 
+   * - Wildcards * (=multiple arbitrary characters) and ? (=one single arbitrary character)
    *   are allowed and can be used to reduce the filling space chars
    *
    * Valid examples:
