@@ -106,4 +106,4 @@ Minimal schematic to use this library
 | SP+ | Speaker + connector |
 | SP- | Speaker - connector |
 
-*If your microcontroller runs at 5V use a 1k resistor between RX and SoftwareSerial TX.
+*If your microcontroller runs at 5V, use a 1k resistor between RX and SoftwareSerial/HardwareSerial TX.
