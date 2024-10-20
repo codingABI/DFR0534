@@ -3,7 +3,7 @@
  *
  * Description:
  * Class for controlling a DFR0534 audio module (https://wiki.dfrobot.com/Voice_Module_SKU__DFR0534)
- * by SoftwareSerial
+ * by SoftwareSerial or HardwareSerial
  *
  * License: 2-Clause BSD License
  * Copyright (c) 2024 codingABI
@@ -14,12 +14,12 @@
  * @author codingABI https://github.com/codingABI/
  * @copyright 2-Clause BSD License
  * @file DFR0534.h
- * @version 1.0.3
+ * @version 1.0.4
  */
 #pragma once
 
 /** Library version */
-#define DFR0534_VERSION "1.0.3"
+#define DFR0534_VERSION "1.0.4"
 
 #include <Arduino.h>
 #include <Stream.h>

@@ -38,7 +38,7 @@
  * @author codingABI https://github.com/codingABI/
  * @copyright 2-Clause BSD License
  * @file DFR0534.cpp
- * @version 1.0.3
+ * @version 1.0.4
  */
 #include "DFR0534.h"
 

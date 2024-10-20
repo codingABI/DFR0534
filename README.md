@@ -1,7 +1,15 @@
 # DFR0534
-An Arduino Uno/Nano library for a [DFR0534](https://wiki.dfrobot.com/Voice_Module_SKU__DFR0534) audio module. The library works with SoftwareSerial and is very similar to https://github.com/sleemanj/JQ8400_Serial, but is no fork.
+An Arduino Uno/Nano, ESP32 library for a [DFR0534](https://wiki.dfrobot.com/Voice_Module_SKU__DFR0534) audio module. The library works with SoftwareSerial/ HardwareSerial and is very similar to https://github.com/sleemanj/JQ8400_Serial, but is no fork.
 
-To create a DFR0534 object pass the existing SoftwareSerial object as parameter to the DFR0534 constructor, for example
+[PDF-Documentation](DFR0534.pdf)
+
+Examples, how to use the library
+- [playFileByName](/examples/playFileByName/playFileByName.ino)
+- [playFileByNumber](/examples/playFileByNumber/playFileByNumber.ino)
+- [playCombined](/examples/playCombined/playCombined.ino)
+
+## SoftwareSerial for Arduino Uno/Nano
+To create a DFR0534 object pass the SoftwareSerial object as a parameter to the DFR0534 constructor, for example
 
 ```
 #include <SoftwareSerial.h>
@@ -14,12 +22,22 @@ DFR0534 g_audio(g_serial);
 ...
 ```
 
-[PDF-Documentation](DFR0534.pdf)
+## HardwareSerial for ESP32
+To create a DFR0534 object pass the HardwareSerial object as a parameter to the DFR0534 constructor, for example
 
-Examples how to use the library
-- [playFileByName](/examples/playFileByName/playFileByName.ino)
-- [playFileByNumber](/examples/playFileByNumber/playFileByNumber.ino)
-- [playCombined](/examples/playCombined/playCombined.ino)
+```
+#include <DFR0534.h>
+
+#define TX_PIN 19
+#define RX_PIN 23
+HardwareSerial g_serial(1);
+
+DFR0534 g_audio(g_serial);
+
+void setup() {
+  g_serial.begin(9600, SERIAL_8N1, RX_PIN, TX_PIN);
+...
+```
 
 ## License and copyright
 This library is licensed under the terms of the 2-Clause BSD License [Copyright (c) 2024 codingABI](LICENSE.txt). 
@@ -73,9 +91,10 @@ This library is licensed under the terms of the 2-Clause BSD License [Copyright 
 
 For function details see comments in [DFR0534.cpp](src/DFR0534.cpp)
 
-
 ### DFR0534 pinout
-![DFR0534](assets/images/DFR0534.jpg)
+
+![DFR0534 frontside](assets/images/DFR0534.jpg)
+![DFR0534 backside](assets/images/DFR0534_backside.jpg)
 
 Minimal schematic to use this library
 | Pin  | Connected to |
@@ -88,5 +107,3 @@ Minimal schematic to use this library
 | SP- | Speaker - connector |
 
 *If your microcontroller runs at 5V use a 1k resistor between RX and SoftwareSerial TX.
-
-
