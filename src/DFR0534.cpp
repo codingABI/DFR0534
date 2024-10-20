@@ -227,12 +227,12 @@ void DFR0534::playNext()
  *
  * The file name/path is the full path of the audio file to be played
  * in format which looks like a special unix 8+3 format:
- * - Without the dot for the file extension
+ * - Without a dot between file name and file extension
  * - All characters in upper case
- * - maximal 8 characters
+ * - Maximal 8 characters for file name
  * - Every file and folder whose name length is shorter then 8 chars
  *   must be filled up to the 8 chars length by space chars
- * - must end with WAV or MP3
+ * - Must end with WAV or MP3
  * - Only WAV and MP3 files are supported
  * - Wildcards * (=multiple arbitrary characters) and ? (=one single arbitrary character)
  *   are allowed and can be used to reduce the filling space chars
