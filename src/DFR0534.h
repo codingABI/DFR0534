@@ -82,7 +82,7 @@ class DFR0534 {
     /**@brief
      * Constructor of a the DFR0534 audio module
      *
-     * @param[in] stream  Serial connection object, like SoftwareSerial
+     * @param[in] stream  Serial connection object, like SoftwareSerial or HardwareSerial
      */
     DFR0534(Stream &stream)
     {

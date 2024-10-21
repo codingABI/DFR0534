@@ -1,5 +1,5 @@
 # DFR0534
-An Arduino Uno/Nano, ESP32 library for a [DFR0534](https://wiki.dfrobot.com/Voice_Module_SKU__DFR0534) audio module. The library works with SoftwareSerial/ HardwareSerial and is very similar to https://github.com/sleemanj/JQ8400_Serial, but is no fork.
+An Arduino Uno/Nano/ATmega328p, ESP32 library for a [DFR0534](https://wiki.dfrobot.com/Voice_Module_SKU__DFR0534) audio module. The library works with SoftwareSerial/ HardwareSerial and is very similar to https://github.com/sleemanj/JQ8400_Serial, but is no fork.
 
 [PDF-Documentation](DFR0534.pdf)
 
@@ -8,7 +8,8 @@ Examples, how to use the library
 - [playFileByNumber](/examples/playFileByNumber/playFileByNumber.ino)
 - [playCombined](/examples/playCombined/playCombined.ino)
 
-## SoftwareSerial for Arduino Uno/Nano
+## SoftwareSerial for Arduino Uno/Nano/ATmega328p
+**Important: whe
 To create a DFR0534 object pass the SoftwareSerial object as a parameter to the DFR0534 constructor, for example
 
 ```

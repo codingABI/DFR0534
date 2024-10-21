@@ -3,7 +3,7 @@
  *
  * Description:
  * Class for controlling a DFR0534 audio module (https://wiki.dfrobot.com/Voice_Module_SKU__DFR0534)
- * by SoftwareSerial
+ * by SoftwareSerial or HardwareSerial
  *
  * License: 2-Clause BSD License
  * Copyright (c) 2024 codingABI
