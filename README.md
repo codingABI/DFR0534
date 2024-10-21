@@ -9,7 +9,6 @@ Examples, how to use the library
 - [playCombined](/examples/playCombined/playCombined.ino)
 
 ## SoftwareSerial for Arduino Uno/Nano/ATmega328p
-**Important: whe
 To create a DFR0534 object pass the SoftwareSerial object as a parameter to the DFR0534 constructor, for example
 
 ```
