@@ -66,7 +66,7 @@ This library is licensed under the terms of the 2-Clause BSD License [Copyright 
 | insertFileByNumber |   |
 | pause |   |
 | play |   |
-| playCombined | The DFR0534 uses a special two char file name format and fixed folder /ZH for this function. Look a the example [playCombined](/examples/playCombined/playCombined.ino) or comments to this function in [DFR0534.cpp](src/DFR0534.cpp) for details |
+| playCombined | The DFR0534 uses a special two char file name format and fixed folder /ZH for this function. Look at the example [playCombined](/examples/playCombined/playCombined.ino) or comments to this function in [DFR0534.cpp](src/DFR0534.cpp) for details |
 | playFileByName | The DFR0534 uses a special 8+3 file name format. Before using this function take a look at the example [playFileByName](/examples/playFileByName/playFileByName.ino) or the comments to this function in [DFR0534.cpp](src/DFR0534.cpp) for details |
 | playFileByNumber | Example [playFileByNumber](/examples/playFileByNumber/playFileByNumber.ino)  |
 | playLastInDirectory |   |
