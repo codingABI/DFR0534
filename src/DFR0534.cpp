@@ -128,7 +128,7 @@ void DFR0534::setEqualizer(byte mode)
  * Play audio file by number
  *
  * File number order is "file copy order":
- * First audio file copied to the drive gets number 1, second audio file copied gets  number 2... )
+ * First audio file copied to the drive gets number 1, second audio file copied gets number 2... )
  *
  * @param[in] track  File number
  */
