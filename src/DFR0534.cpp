@@ -1015,7 +1015,6 @@ void DFR0534::stopRepeatPart()
 }
 
 /**@brief
- * Fast backward
  *
  * Fast backward in seconds
  *

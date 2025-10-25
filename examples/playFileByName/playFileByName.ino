@@ -35,14 +35,13 @@ void setup() {
    * - Wildcards * (=multiple arbitrary characters) and ? (=one single arbitrary character)
    *   are allowed and can be used to reduce the filling space chars
    *
-   * Valid examples:
+   * Valid examples (first means first in "file copy order"):
    * - "/01      WAV" for a file '/01.wav'
    * - "/99-AFR~1MP3" for a file '/99-Africa.mp3'
    * - "/SUN*MP3" for first file matching '/sun*.mp3', for example '/sun.mp3'
    * - "/99-AFR*MP3" for first file matching '/99-Afr*.mp3'
    * - "/10*" for first audio file matching '/10*.*'
    * - "/10      /20      WAV" for the file '/10/20.wav'
-   * (first means first in "file copy order")
    *
    * You can get example files from
    * https://github.com/codingABI/DFR0534/tree/main/assets/exampleContent
